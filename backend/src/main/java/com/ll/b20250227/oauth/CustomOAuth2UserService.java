@@ -1,7 +1,7 @@
-package com.ll.a20250227.oauth;
+package com.ll.b20250227.oauth;
 
-import com.ll.a20250227.entity.User;
-import com.ll.a20250227.repository.UserRepository;
+import com.ll.b20250227.entity.User;
+import com.ll.b20250227.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

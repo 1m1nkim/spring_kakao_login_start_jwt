@@ -18,6 +18,12 @@ export default function LoginPage() {
 
   // 컴포넌트 마운트 시 로그인 상태 확인
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      localStorage.setItem('accessToken', token);
+      window.history.replaceState({}, document.title, '/');
+    }
     checkLoginStatus();
 
     // URL 파라미터를 확인하고 메시지 표시 (필요시)
@@ -39,7 +45,9 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/api/user', {
-        withCredentials: true // 쿠키를 포함하여 요청 전송
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
       });
 
       if (response.status === 200) {

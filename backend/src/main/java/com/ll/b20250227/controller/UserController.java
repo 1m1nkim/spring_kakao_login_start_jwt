@@ -1,7 +1,7 @@
-package com.ll.a20250227.controller;
+package com.ll.b20250227.controller;
 
-import com.ll.a20250227.entity.User;
-import com.ll.a20250227.repository.UserRepository;
+import com.ll.b20250227.entity.User;
+import com.ll.b20250227.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;

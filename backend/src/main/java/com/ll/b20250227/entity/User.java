@@ -1,5 +1,5 @@
 // User.java
-package com.ll.a20250227.entity;
+package com.ll.b20250227.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
