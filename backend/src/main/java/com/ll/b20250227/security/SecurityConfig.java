@@ -3,6 +3,7 @@ package com.ll.b20250227.security;
 import com.ll.b20250227.jwt.JwtAuthenticationFilter;
 import com.ll.b20250227.jwt.JwtProvider;
 import com.ll.b20250227.oauth.CustomOAuth2UserService;
+import com.ll.b20250227.oauth.OAuth2LoginSuccessHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomOAuth2UserService customOAuth2UserService,
-                                                   OAuth2AuthorizationRequestResolver authorizationRequestResolver) throws Exception {
+                                                   OAuth2AuthorizationRequestResolver authorizationRequestResolver,
+                                                   OAuth2LoginSuccessHandler oAuthLoginSuccessHandler) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -55,7 +57,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
-                        .defaultSuccessUrl("http://localhost:3000/?success=true", true)
+                        .successHandler(oAuthLoginSuccessHandler)
                         .failureUrl("http://localhost:3000/?error=true")
                         .authorizationEndpoint(endpoint ->
                                 endpoint.authorizationRequestResolver(authorizationRequestResolver)
