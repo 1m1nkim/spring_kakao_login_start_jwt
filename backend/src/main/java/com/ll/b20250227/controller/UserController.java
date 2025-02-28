@@ -26,9 +26,6 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * 현재 로그인된 사용자 정보를 반환합니다.
-     */
     @GetMapping("/user")
     public ResponseEntity<?> getUserInfo() {
         // JWT 필터가 인증에 성공했다면, SecurityContext에 UserDetails가 들어있음
@@ -43,6 +40,7 @@ public class UserController {
             return ResponseEntity.status(401).body("인증되지 않은 사용자입니다.");
         }
 
+        //userDetails.getUsername() = subject(카카오 ID)
         String userIdStr = userDetails.getUsername();
         Long userId = Long.valueOf(userIdStr);
 

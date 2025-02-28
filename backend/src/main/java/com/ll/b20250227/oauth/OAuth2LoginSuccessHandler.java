@@ -25,8 +25,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Long kakaoId = (Long) oAuth2User.getAttributes().get("id");
-        String token = jwtProvider.createToken(String.valueOf(kakaoId));
-        response.sendRedirect("http://localhost:3000/?success=true&token=" + token);
+        String accessToken = jwtProvider.createAccessToken(String.valueOf(kakaoId));
+        String refreshToken = jwtProvider.createRefreshToken(String.valueOf(kakaoId));
+        response.sendRedirect("http://localhost:3000/?success=true&accessToken=" + accessToken + "&refreshToken=" + refreshToken);
     }
 }
 

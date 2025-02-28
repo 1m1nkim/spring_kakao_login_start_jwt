@@ -14,15 +14,32 @@ public class JwtProvider {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     // 토큰 유효시간 (예: 1시간)
-    private final long validityInMilliseconds = 3600000; // 1시간
+    private final long validityInMilliseconds = 5000; // 10분
+    private final long refreshTokenValidity = 7 * 24 * 60 * 60 * 1000L; // 7일
 
     // 토큰 생성: 주로 사용자 식별값(username 혹은 userId)을 subject로 설정
-    public String createToken(String subject) {
+    public String createAccessToken(String subject) {
         Claims claims = Jwts.claims().setSubject(subject);
+        claims.put("type", "access");
         // 추가 클레임 설정 가능
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(key)
+                .compact();
+    }
+
+    public String createRefreshToken(String subject) {
+        Claims claims = Jwts.claims().setSubject(subject);
+        claims.put("type", "refresh");
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + refreshTokenValidity);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -47,5 +64,10 @@ public class JwtProvider {
     public String getSubject(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getTokenType(String token) {
+        return (String) Jwts.parserBuilder().setSigningKey(key).build().
+                parseClaimsJws(token).getBody().getSubject();
     }
 }

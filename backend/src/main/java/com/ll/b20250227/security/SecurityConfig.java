@@ -45,7 +45,7 @@ public class SecurityConfig {
                 // 세션을 사용하지 않고 stateless하게 만듭니다.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/oauth2/authorization/**", "/h2-console/**").permitAll()
+                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/oauth2/authorization/**", "/h2-console/**", "/api/refresh").permitAll()
                         .requestMatchers("/api/logout").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
